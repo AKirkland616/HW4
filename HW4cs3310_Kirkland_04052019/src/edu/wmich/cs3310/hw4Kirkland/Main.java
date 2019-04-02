@@ -13,7 +13,7 @@ public class Main {
 		String[] filenames = {"myTextFile.txt"};
 		for (int i = 0 ; i < filenames.length;i++) {
 			Compressor cp = new Compressor(filenames[i]);
-			decompressor dc = new decompressor(cp.getKeyToDecomp());
+			//decompressor dc = new decompressor(cp.getKeyToDecomp());
 			
 		}
 
