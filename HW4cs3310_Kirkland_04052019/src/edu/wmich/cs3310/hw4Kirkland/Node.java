@@ -21,13 +21,17 @@ public class Node {
 		rChild = right;
 	}
 	
-	public Node(char letterVal) {
-		letter = letterVal;
+	public Node(char character, int frequency) {
+		val = frequency;
+		letter = character;
 		lChild = null;
 		rChild = null;
 	}
 	
-	public int getVal() {
+	public char getChar() {
+		return letter;
+	}
+	public int getFreq() {
 		return val;
 	}
 	
@@ -58,6 +62,10 @@ public class Node {
 	public Map.Entry<Character, Integer> getData() {
 		// TODO Auto-generated method stub
 		return value;
+	}
+	
+	public int getVal() {
+		return value.getValue();
 	}
 
 	public Node getNext(){

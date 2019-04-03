@@ -18,6 +18,11 @@ public class Compressor {
 	ArrayList<Character> lin = new ArrayList<Character>();
 	//int numlines=0;
 	
+	//Huffman Tree variables
+	Node leftChild;
+	Node rightChild;
+	Node parent;
+	
 	
 	public Compressor(String fileName) throws IOException {
 		filename = fileName;
@@ -100,6 +105,24 @@ public class Compressor {
 			}
 		}
 		
+	}
+	
+	public void createHuffmanTree() {
+		PriorityQueue freq = new PriorityQueue();
+		
+		for(Map.Entry<Character, Integer> entry : key.entrySet()) {
+			freq.enqueue(new Node(entry.getKey(),entry.getValue()));
+		}
+		
+		while(pq.size() > 1) {
+			leftChild = freq.peek();
+			freq.dequeue();
+			rightChild = freq.peek();
+			freq.dequeue();
+			
+			parent = new Node(leftChild.getVal() + rightChild.getVal(),leftChild,rightChild);
+			
+		}
 	}
 
 }
