@@ -12,34 +12,31 @@ import java.util.Map;
 public class Compressor {
 	PriorityQueue pq = new PriorityQueue();
 	Map<Character, Integer> letterFrequency = new HashMap<Character, Integer>();
-	Map<Character, Integer> key = new HashMap<Character, Integer>();
-	Map<Integer, Character> passedKey = new HashMap<Integer,Character >();
+	Map<Character, String> key = new HashMap<Character, String>();
 	String filename;
 	ArrayList<Character> lin = new ArrayList<Character>();
-	//int numlines=0;
-	
-	//Huffman Tree variables
-	Node leftChild;
-	Node rightChild;
-	Node parent;
+	Huffman h; 
 	
 	
 	public Compressor(String fileName) throws IOException {
 		filename = fileName;
 		countLetters();
 		setPriority();
-		createKey();
+		h = new Huffman(pq);
+		key = h.getEncodeKey();
 		createCompressedFile();
+		//printFreq();
+		//printKey();
 		
 	}
 	
 	private void countLetters() throws IOException {
-		System.out.println("counting letters");
+		//System.out.println("counting letters");
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		String line = reader.readLine();
 		while(line!=null) {
 				 for (int i = 0; i < line.length(); i++) {
-					 System.out.println(line.charAt(i));
+					 //System.out.println(line.charAt(i));
 					 	
 			            char c = line.charAt(i);
 			            lin.add(c);
@@ -61,38 +58,23 @@ public class Compressor {
 			
 			//numlines++;
 		}
+		reader.close();
 	}
 	
 	private void setPriority() {
-		System.out.println("creating pq");
+		//System.out.println("creating pq");
 		for (Map.Entry<Character, Integer> aa : letterFrequency.entrySet()) { 
-			pq.enqueue(aa);
-            System.out.println(aa.getKey()+" "+aa.getValue());
+			HuffmanNode bb = new HuffmanNode(aa.getKey(),aa.getValue());
+			pq.enqueue(bb);
+            //System.out.println(aa.getKey()+" "+aa.getValue());
         } 
 		
 	}
 	
-	private void createKey() {
-		System.out.println("creating key");
-		int i = 0;
-		
-		while(!pq.isEmpty()) {
-			Map.Entry<Character, Integer> d = pq.dequeue();
-			System.out.println(d.getKey()+" "+d.getValue());
-			key.put(d.getKey(),Integer.parseInt(Integer.toBinaryString(i)));
-			passedKey.put(Integer.parseInt(Integer.toBinaryString(i)), d.getKey());
-			i++;
-		}
-		for (Map.Entry<Character, Integer> aa : key.entrySet()) {
-            System.out.println(aa.getKey()+" "+aa.getValue());
-        } 
-	}
 	
-	public Map<Integer, Character> getKeyToDecomp(){
-		return passedKey;
-	}
 	
 	private void createCompressedFile() throws IOException {
+		System.out.print("Compressing “myfile.txt” into “myfile_compressed.bin”... ");
 		FileOutputStream fos=new FileOutputStream("myTextFile_compressed.bin");
 		for(int i = 0; i<lin.size();i++) {
 			if(lin.get(i)=='\n') {
@@ -101,28 +83,33 @@ public class Compressor {
 			}else {
 			byte[] st = key.get(lin.get(i)).toString().getBytes();
 			fos.write(st);
-			char s = '\n';
 			}
 		}
-		
+		fos.close();
+		System.out.println("[Done]");
 	}
 	
-	public void createHuffmanTree() {
-		PriorityQueue freq = new PriorityQueue();
+	public void printKey() {
+		System.out.println("\nCharacters\tEncodings");
+		System.out.println("--------------------------");
+		for (Map.Entry<Character, String> aa : key.entrySet()) { 
+			//HuffmanNode bb = new HuffmanNode(aa.getKey(),aa.getValue());
+			//pq.enqueue(bb);
+            System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
+        } 
+	}
+	public void printFreq() {
+		System.out.println("Characters\tFrequency");
+		System.out.println("--------------------------");
+		for (Map.Entry<Character, Integer> aa : letterFrequency.entrySet()) { 
+			System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
+        } 
 		
-		for(Map.Entry<Character, Integer> entry : key.entrySet()) {
-			freq.enqueue(new Node(entry.getKey(),entry.getValue()));
-		}
-		
-		while(pq.size() > 1) {
-			leftChild = freq.peek();
-			freq.dequeue();
-			rightChild = freq.peek();
-			freq.dequeue();
-			
-			parent = new Node(leftChild.getVal() + rightChild.getVal(),leftChild,rightChild);
-			
-		}
+		System.out.println("\nTotal Characters: " + letterFrequency.size());
+	}
+	
+	public Huffman getHuffmanTree() {
+		return h;
 	}
 
 }
