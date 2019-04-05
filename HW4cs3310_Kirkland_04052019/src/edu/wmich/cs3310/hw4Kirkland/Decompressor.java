@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Anthony Kirkland & Michael Coffey
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
-public class decompressor {
+public class Decompressor {
 	Map<String, Character> key = new HashMap<String, Character>();
 	long time;
 	String compFile;
@@ -23,7 +23,7 @@ public class decompressor {
 	 * @param where where to write decompression of compressed file
 	 * @throws IOException
 	 */
-	public decompressor(Huffman ke, String file, String where) throws IOException {
+	public Decompressor(Huffman ke, String file, String where) throws IOException {
 		key= ke.getDecodeKey();
 		compFile = file;
 		decompFile = where;
@@ -43,7 +43,6 @@ public class decompressor {
 			String letCode = "";
 			for (int i = 0; i < line.length(); i++) {
 				letCode+=line.charAt(i);
-				//System.out.print(letCode);
 				if(key.containsKey(letCode)) {
 					char s = key.get(letCode);
 					fos.write(s);

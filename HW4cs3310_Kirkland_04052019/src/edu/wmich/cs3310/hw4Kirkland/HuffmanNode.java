@@ -2,7 +2,7 @@ package edu.wmich.cs3310.hw4Kirkland;
 
 
 /**
- * @author Anthony Kirkland & Michael Coffey
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
 public class HuffmanNode {

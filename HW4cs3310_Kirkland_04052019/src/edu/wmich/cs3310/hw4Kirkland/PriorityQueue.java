@@ -2,7 +2,7 @@ package edu.wmich.cs3310.hw4Kirkland;
 
 
 /**
- * @author Anthony Kirkland
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
 public class PriorityQueue {

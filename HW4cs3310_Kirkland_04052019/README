@@ -4,3 +4,8 @@
 ***									Michael Coffey									***
 ***************************************************************************************
 
+When prompted to, enter the number of characters to randomly write to myfile.txt.
+The sum of the digits of the integer key when sum is used to decide whether or not the the left child node is (even sum)0 or (odd sum)1.
+If you want to test multiple values of n at the same time, on lines 26-28 add the names of files to write to and read from.
+Please do not enter values of n < 3. This will force the program to crash. 
+Please enjoy!

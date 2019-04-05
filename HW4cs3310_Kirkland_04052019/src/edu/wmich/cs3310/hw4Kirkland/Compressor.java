@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 /**
- * @author Anthony Kirkland & Michael Coffey
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
 public class Compressor {
@@ -41,22 +41,16 @@ public class Compressor {
 		long end = System.currentTimeMillis();
 		time[0]= end-start;
 		createCompressedFile();
-		//printFreq();
-		//printKey();
-		
 	}
 	
 	/** add the frequency of letters and places/ replaces them in hash map
 	 * @throws IOException
 	 */
 	private void countLetters() throws IOException {
-		//System.out.println("counting letters");
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		String line = reader.readLine();
 		while(line!=null) {
 				 for (int i = 0; i < line.length(); i++) {
-					 //System.out.println(line.charAt(i));
-					 	
 			            char c = line.charAt(i);
 			            lin.add(c);
 			            if (letterFrequency.containsKey(c)) {
@@ -71,11 +65,7 @@ public class Compressor {
 			            
 			            
 			        }
-				 
-				 
 					line=reader.readLine();
-			
-			//numlines++;
 		}
 		reader.close();
 	}
@@ -84,11 +74,9 @@ public class Compressor {
 	 * puts all letters in hash map to priority queue where lowest frequencies are dequeued first
 	 */
 	private void setPriority() {
-		//System.out.println("creating pq");
 		for (Map.Entry<Character, Integer> aa : letterFrequency.entrySet()) { 
 			HuffmanNode bb = new HuffmanNode(aa.getKey(),aa.getValue());
 			pq.enqueue(bb);
-            //System.out.println(aa.getKey()+" "+aa.getValue());
         } 
 		
 	}
@@ -124,8 +112,6 @@ public class Compressor {
 		System.out.println("\nCharacters\tEncodings");
 		System.out.println("--------------------------");
 		for (Map.Entry<Character, String> aa : key.entrySet()) { 
-			//HuffmanNode bb = new HuffmanNode(aa.getKey(),aa.getValue());
-			//pq.enqueue(bb);
             System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
         } 
 	}
@@ -141,7 +127,7 @@ public class Compressor {
 			System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
         } 
 		
-		System.out.println("\nTotal Unique Characters: " + letterFrequency.size());
+		System.out.println("\nTotal Characters: " + (lin.size()-1));
 	}
 	
 	/**get method for huffman tree

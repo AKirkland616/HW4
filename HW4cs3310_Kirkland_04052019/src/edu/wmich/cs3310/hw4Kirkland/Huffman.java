@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Anthony Kirkland & Michael Coffey
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
 public class Huffman {
@@ -52,22 +52,17 @@ public class Huffman {
 	 */
 	public void makeKeys(HuffmanNode root, String s) {
 		if (root.getLeft() == null && root.getRight() == null && root.getChar()!='\n') { 
-			
-            // c is the character in the node 
 			encodeKey.put(root.getChar(), s);
 			decodeKey.put(s, root.getChar());
-            //System.out.println(root.getChar() + ":" + s); 
-  
             return; 
         } 
-		
-		 if(oddEven == 0) {
+		if(oddEven == 0) {
 			 makeKeys(root.getLeft(), s + "0"); 
 			 makeKeys(root.getRight(), s + "1");
-	     }else {
+	    }else {
 	    	 makeKeys(root.getLeft(), s + "1"); 
 	    	 makeKeys(root.getRight(), s + "0"); 
-	        }
+	    }
 	}
 	
 	/** used to encode

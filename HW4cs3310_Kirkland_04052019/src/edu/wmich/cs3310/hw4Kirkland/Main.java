@@ -1,10 +1,12 @@
 package edu.wmich.cs3310.hw4Kirkland;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
- * @author Anthony Kirkland & Michael Coffey
+ * @author Anthony Kirkland and Michael Coffey
  *
  */
 public class Main {
@@ -19,15 +21,15 @@ public class Main {
 		System.out.println("Huffman Code");
 		System.out.println("============");
 		
-		int oddEven = getInput();
 		
 		// TODO Auto-generated method stub
-		String[] filenames = {"testcase30.txt","testcase60.txt"};
-		String[] compFilenames= {"testcase30_compressed.bin", "testcase60_compressed.bin"};
-		String[] decompFilenames = {"testcase30_decompressed.txt","testcase60_decompressed.txt"};
+		String[] filenames = {"myfile.txt"};
+		String[] compFilenames= {"myfile_compressed.bin"};
+		String[] decompFilenames = {"myfile_decompressed.txt"};
 		for (int i = 0 ; i < filenames.length;i++) {
+			int oddEven = getInput();
 			Compressor cp = new Compressor(filenames[i], compFilenames[i] , oddEven);
-			decompressor dc = new decompressor(cp.getHuffmanTree(),compFilenames[i], decompFilenames[i]);
+			Decompressor dc = new Decompressor(cp.getHuffmanTree(),compFilenames[i], decompFilenames[i]);
 			System.out.println("\nResults...\n");
 			cp.printFreq();
 			cp.printKey();
@@ -39,22 +41,39 @@ public class Main {
 		}
 	}
 	
-	/** gets integer key from using. used to determine labeling of right and left child
+	/** 
+	 *randomly fills text file with characters and gets integer key from using. used to determine labeling of right and left child
 	 * @return 0 if sum of all digits is even 1 if not
 	 * @throws IOException
 	 */
-	public static int getInput() throws IOException {
-		System.out.print("Enter the integer key: ");
+	public static int getInput() throws IOException{
+		
+		System.out.print("Enter the number of characters: ");
 		Scanner sc = new Scanner(System.in);
 		while (!sc.hasNextInt()) sc.next();
+		int numOfChar = sc.nextInt();
+		FileOutputStream fos =new FileOutputStream("myfile.txt");
+		Random rand = new Random();
+		
+		System.out.print("Enter the integer key: ");
+		while (!sc.hasNextInt()) sc.next();
 		int key = sc.nextInt();
+		
+		System.out.print("Writing to file... ");
+		for(int i = 0; i<numOfChar;i++) {
+			fos.write((char)(rand.nextInt(127-32)+32));
+		}
+		System.out.println("[Done]");
+		
 		int sum = 0; 
         while (key != 0) { 
             sum = sum + key % 10; 
             key = key/10; 
         } 
         int oddEven = sum%2;
+        fos.close();
 		sc.close();
 		return oddEven;
 	}
+	
 }
