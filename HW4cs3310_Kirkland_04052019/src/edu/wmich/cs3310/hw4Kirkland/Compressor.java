@@ -9,27 +9,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * @author Anthony Kirkland & Michael Coffey
+ *
+ */
 public class Compressor {
 	PriorityQueue pq = new PriorityQueue();
 	Map<Character, Integer> letterFrequency = new HashMap<Character, Integer>();
 	Map<Character, String> key = new HashMap<Character, String>();
 	String filename;
+	String compFileName;
 	ArrayList<Character> lin = new ArrayList<Character>();
 	Huffman h; 
+	long[] time = new long[2];
 	
 	
-	public Compressor(String fileName) throws IOException {
+	/** constructor for compressor class
+	 * @param fileName file to be read from
+	 * @param compfile what to name the compressed file
+	 * @param oddeven what to label right and left child nodes
+	 * @throws IOException
+	 */
+	public Compressor(String fileName, String compfile, int oddeven) throws IOException {
 		filename = fileName;
+		compFileName = compfile;
 		countLetters();
 		setPriority();
-		h = new Huffman(pq);
+		long start = System.currentTimeMillis();
+		h = new Huffman(pq,oddeven);
 		key = h.getEncodeKey();
+		long end = System.currentTimeMillis();
+		time[0]= end-start;
 		createCompressedFile();
 		//printFreq();
 		//printKey();
 		
 	}
 	
+	/** add the frequency of letters and places/ replaces them in hash map
+	 * @throws IOException
+	 */
 	private void countLetters() throws IOException {
 		//System.out.println("counting letters");
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -61,6 +80,9 @@ public class Compressor {
 		reader.close();
 	}
 	
+	/**
+	 * puts all letters in hash map to priority queue where lowest frequencies are dequeued first
+	 */
 	private void setPriority() {
 		//System.out.println("creating pq");
 		for (Map.Entry<Character, Integer> aa : letterFrequency.entrySet()) { 
@@ -73,9 +95,13 @@ public class Compressor {
 	
 	
 	
+	/** creates compressed file using encoding from huffman tree
+	 * @throws IOException
+	 */
 	private void createCompressedFile() throws IOException {
-		System.out.print("Compressing “myfile.txt” into “myfile_compressed.bin”... ");
-		FileOutputStream fos=new FileOutputStream("myTextFile_compressed.bin");
+		System.out.print("Compressing " + filename + " into " + compFileName + "... ");
+		long start = System.currentTimeMillis();
+		FileOutputStream fos=new FileOutputStream(compFileName);
 		for(int i = 0; i<lin.size();i++) {
 			if(lin.get(i)=='\n') {
 				if(i!=lin.size()-1)
@@ -86,9 +112,14 @@ public class Compressor {
 			}
 		}
 		fos.close();
+		long end = System.currentTimeMillis();
+		time[1] = end - start;
 		System.out.println("[Done]");
 	}
 	
+	/**
+	 * prints corresponding letters and encodings
+	 */
 	public void printKey() {
 		System.out.println("\nCharacters\tEncodings");
 		System.out.println("--------------------------");
@@ -98,6 +129,11 @@ public class Compressor {
             System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
         } 
 	}
+	
+	
+	/**
+	 * prints corresponding letters and frequencies
+	 */
 	public void printFreq() {
 		System.out.println("Characters\tFrequency");
 		System.out.println("--------------------------");
@@ -105,11 +141,21 @@ public class Compressor {
 			System.out.println("\t"+aa.getKey()+"\t"+aa.getValue());
         } 
 		
-		System.out.println("\nTotal Characters: " + letterFrequency.size());
+		System.out.println("\nTotal Unique Characters: " + letterFrequency.size());
 	}
 	
+	/**get method for huffman tree
+	 * @return huffman tree
+	 */
 	public Huffman getHuffmanTree() {
 		return h;
+	}
+	
+	/** get method for times taken
+	 * @return times taken
+	 */
+	public long[] getTime() {
+		return time;
 	}
 
 }

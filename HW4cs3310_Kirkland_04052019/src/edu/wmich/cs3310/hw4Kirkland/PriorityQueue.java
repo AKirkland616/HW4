@@ -1,18 +1,28 @@
 package edu.wmich.cs3310.hw4Kirkland;
 
 
+/**
+ * @author Anthony Kirkland
+ *
+ */
 public class PriorityQueue {
 	private Node head;
 	private Node tail;
 	private int sizeOfQueue = 0;
 	
 	
-	// Determine if the priority queue is empty.
+	
+	/** Determine if the priority queue is empty.
+	 * @return true if empty false if else
+	 */
 	public boolean isEmpty() {
 		return (head==null);
 	}
 	
-	// Add object received to the priority queue taking into consideration the rules governing priority.
+	
+	/** Add object received to the priority queue taking into consideration the rules governing priority.
+	 * @param data huffman node
+	 */
 	public void enqueue(HuffmanNode data) {
 		Node n = new Node(data);
 		sizeOfQueue++;
@@ -51,7 +61,10 @@ public class PriorityQueue {
 		
 	}
 	
-	// Remove the next object to be processed from the priority queue.
+	
+	/** Remove the next object to be processed from the priority queue.
+	 * @return huffman node
+	 */
 	public HuffmanNode dequeue(){
 		HuffmanNode ret = head.getData();
 		head = head.getNext();
@@ -60,6 +73,9 @@ public class PriorityQueue {
 		
 	}
 	
+	/**gets size of queue
+	 * @return size
+	 */
 	public int size() {
 		return sizeOfQueue;
 	}
